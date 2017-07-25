@@ -138,7 +138,7 @@ class UserController extends Controller {
         unset($arrCompany["_token"]);  
 
         unset($arrCompany["password_confirmation"]);
-        unset($arrCompany["paswsord"]);          
+        unset($arrCompany["password"]);          
 
         $company_id = DB::table("company")->insertGetId($arrCompany);
 
