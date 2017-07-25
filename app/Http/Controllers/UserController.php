@@ -22,14 +22,19 @@ class UserController extends Controller {
 		$this->data["type"]= "User"; 
 		$this->data["req"]= $req; 
 		$this->company_id = 0;
+		if (isset(\Auth::user()->company_id)){
+			$this->company_id = \Auth::user()->company_id;
+		}		
 	} 
 
 	public function getAdd(){
+		echo $this->company_id;
 		$req = $this->data["req"];
-		$role = DB::table("tb_role")->where("company_id", $this->company_id)->get();
+		$role = DB::table("tb_role")->get();
 		$agent = DB::table("agent")
 		->select("agent.id","agent.name", "tb_cities.name as kota")
 		->join("tb_cities","tb_cities.id","=", "agent.city_id", "left")
+		->where("agent.company_id", $this->company_id)
 		->get();
 		$this->data["agent"] = $agent;				
 		$this->data["role"] = $role;
@@ -114,7 +119,7 @@ class UserController extends Controller {
 		$rules = array(
 			'name'=>'required|alpha_num|min:2',
 			'phone'=>'required|alpha_num|min:2',
-			'email'=>'required|email|unique:company|unique:tb_users',
+			'email'=>'required|email|unique:company',
 			'address' => 'required',
 			'password'=>'required|between:6,12|confirmed',
 			'password_confirmation'=>'required|between:6,12'
@@ -133,7 +138,7 @@ class UserController extends Controller {
         unset($arrCompany["_token"]);  
 
         unset($arrCompany["password_confirmation"]);
-        unset($arrCompany["password"]);          
+        unset($arrCompany["paswsord"]);          
 
         $company_id = DB::table("company")->insertGetId($arrCompany);
 
@@ -154,16 +159,16 @@ class UserController extends Controller {
 		return Redirect::to('user/login')->with('message',\SiteHelpers::alert('success',"Successfull created"));	
 	}
 
-	public function postCreate( Request $request) {	
-
+	public function postCreate() {	
+		$request =  $this->data['req'];
 		$rules = array(
 			'firstname'=>'required|alpha_num|min:2',
 			'lastname'=>'required|alpha_num|min:2',
-			'email'=>'required|email|unique:tb_users',
+			'email'=>'required',
 			'role' => 'required',
 			'password'=>'required|between:6,12|confirmed',
-			'password_confirmation'=>'required|between:6,12'
-			);	
+			'password_confirmation'=>'required|between:6,12'			
+		);	 
 		if ($request->input("role")=="3"){
 			$rules["agent"] = "required";
 		}
@@ -173,10 +178,13 @@ class UserController extends Controller {
         if ($validator->fails()) {            
             return Redirect::to(URL::previous())->withInput(Input::all())->withErrors($validator);            
         }
-  //       echo "<pre>";
-		// print_r($request->input());
-		// die();
-		$authen = new User;
+
+        $checkuniq = DB::table("tb_users")->where("email", $arrInsert["email"])->where("company_id", $this->company_id)->first();
+        if (isset($checkuniq)){
+            return Redirect::to(URL::previous())->withInput(Input::all())->withErrors(array("The email has already been taken."));            
+        }
+
+	  	$authen = new User;
 		$authen->first_name = $request->input('firstname');
 		$authen->last_name = $request->input('lastname');
 		$authen->role_id = $request->input('role');
@@ -185,6 +193,7 @@ class UserController extends Controller {
 		}
 		$authen->email = trim($request->input('email'));			
 		$authen->password = \Hash::make($request->input('password'));
+		$authen->company_id = $this->company_id;
 		$authen->save();
 		return Redirect::to('user/list')->with('message',\SiteHelpers::alert('success',"Successfull created"));
 		
@@ -490,11 +499,17 @@ class UserController extends Controller {
 	}	
 
 	public function getLogout() {
+		$req = $this->data["req"];
+		$status = $req->input("status", "");
+		$msg =  'Your are now logged out!';
+		if ($status =="payment"){
+			 $msg =  'Please payment to continue, contact us how to help';
+		}
 		$currentLang = \Session::get('lang');
 		\Auth::logout();
 		\Session::flush();
 		\Session::put('lang', $currentLang);
-		return Redirect::to('')->with('message', 'Your are now logged out!');
+		return Redirect::to('')->with('message', $msg);
 	}
 
 	function getSocialize( $social )

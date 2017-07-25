@@ -22,7 +22,7 @@ class CustomerController extends Controller {
         $this->company_id = \Auth::user()->company_id;
     }
 
-	public function index(){                                
+	public function index(){                                        
         $req = $this->data["req"];
         $input= $req->input();         
         $custDB = $this->_get_index_filter($input);        

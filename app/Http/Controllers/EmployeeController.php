@@ -15,9 +15,11 @@ use \PHPExcel_IOFactory, \PHPExcel_Style_Fill, \PHPExcel_Cell, \PHPExcel_Cell_Da
 class EmployeeController extends Controller {
     
     var $data;
+    var $company_id;
     public function __construct(Request $req){
     	$this->data["type"]= "master_karyawan";    	
     	$this->data["req"]= $req;    	
+        $this->company_id = \Auth::user()->company_id;
     }
 
 	public function getList(){  
@@ -40,7 +42,7 @@ class EmployeeController extends Controller {
 
     public function getDelete($id){
         $employ = DB::table("employee")->where("id", $id)->delete();       
-        return redirect('/employ/list')->with('message', "Successfull delete");     
+        return redirect('/employ/list')->with('message', "Successfull delete");
     }
 
 	public function postCreate(){	
@@ -56,6 +58,8 @@ class EmployeeController extends Controller {
             return Redirect::to(URL::previous())->withInput(Input::all())->withErrors($validator);            
         }
         $arrInsert = $req->input();
+
+        $arrInsert["company_id"] = $this->company_id;
         $arrInsert["created_at"] = date("Y-m-d h:i:s");
         unset($arrInsert["_token"]);        
         DB::table("employee")->insert($arrInsert);        
@@ -79,12 +83,10 @@ class EmployeeController extends Controller {
         unset($arrUpdate["_token"]);        
         DB::table("employee")->where("id", $id)->update($arrUpdate);        
         return redirect('/employ/list')->with('message', "Successfull update");			
-	}
-
-    
+	}    
 
 	private function _get_index_filter($filter){
-        $dbemploy = DB::table("employee");
+        $dbemploy = DB::table("employee")->where("company_id", $this->company_id);
         if (isset($filter["nama"])){
             $dbemploy = $dbemploy->where("nama", "like", "%".$filter["nama"]."%");
         }

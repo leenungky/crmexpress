@@ -14,7 +14,7 @@
     		<div class="col-md-8">
     			<div class="row row-top-menu">
     				<div class="col-md-2 col-top-logo">	
-    					<img src="{{URL::asset('img/logo-bks.png')}}" class="logo">
+    					<!-- <img src="{{URL::asset('img/logo-bks.png')}}" class="logo"> -->
     				</div>    				
                     <div class="col-md-2 col-top-menu1">
                         <div class="dropdown">

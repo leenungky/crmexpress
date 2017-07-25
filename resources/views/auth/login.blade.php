@@ -22,7 +22,7 @@
               @if (Session::has('message'))
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="err-msg">{!!session('message')!!}</div>
+                        <div class="err-msg alert alert-danger">{!!session('message')!!}</div>
                     </div>
                 </div>                    
             @endif

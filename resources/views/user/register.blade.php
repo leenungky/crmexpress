@@ -57,7 +57,7 @@
                         <label for="email">Comfirm Password</label>
                          <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="input comfirm password" value="{{ old('password_confirmation') }}" required>
                     </div>                  
-                    <button type="submit" class="btn">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="/" class="btn btn-primary">Cancel</a>
                 </form>
             </div>

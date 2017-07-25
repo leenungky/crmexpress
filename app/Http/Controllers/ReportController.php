@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Helpers\Helpers;
 use DNS2D;
-use Illuminate\Support\Facades\Input;
-use \PHPExcel_IOFactory, \PHPExcel_Style_Fill, \PHPExcel_Cell, \PHPExcel_Cell_DataType, \SiteHelpers;
-use \PHPExcel_Worksheet_Drawing;
+use Illuminate\Support\Facades\Input
+;use \PHPExcel_IOFactory, \PHPExcel_Style_Fill, \PHPExcel_Cell, \PHPExcel_Cell_DataType, \SiteHelpers; use \PHPExcel_Worksheet_Drawing;
 
 class ReportController extends Controller {
     
@@ -36,8 +35,8 @@ class ReportController extends Controller {
             $objDrawing->setWidth("150");
             $xls->getActiveSheet()->getRowDimension(0)->setRowHeight(20);
 
-
-            $xls->getActiveSheet()->setCellValue('E1', 'Branch');
+ 
+           $xls->getActiveSheet()->setCellValue('E1', 'Branch');
             $xls->getActiveSheet()->setCellValue('E2', 'Pengirim');
             $xls->getActiveSheet()->setCellValue('E3', 'Tanggal');
             $xls->getActiveSheet()->setCellValue('E4', 'INVOICE');
@@ -63,7 +62,7 @@ class ReportController extends Controller {
             $tot_biaya = 0;
             $idx = 6;
             foreach($this->data["transaction"] as $trans){
-                $discount =  $trans->price - ($trans->price* ($this->data["customer"]->discount/100));
+                $discount =  $rtans->price - ($trans->price* ($this->data["customer"]->discount/100));
                 $tot_discount = $tot_discount+$discount;
                 $tot_biaya = $tot_biaya + $trans->price;
                 $xls->getActiveSheet()->setCellValue('A'.$idx, ++$i);
@@ -92,8 +91,8 @@ class ReportController extends Controller {
             $xls->getActiveSheet()->mergeCells('A'.$idx.':G'.$idx);
             $xls->getActiveSheet()->setCellValue('A'.$idx, "Mohon untuk dapat melakukan pembayaran melalui rekening berikut :");
 
-            $idx++;
-            $xls->getActiveSheet()->mergeCells('A'.$idx.':G'.$idx);
+            $idx++
+;            $xls->getActiveSheet()->mergeCells('A'.$idx.':G'.$idx);
             $xls->getActiveSheet()->setCellValue('A'.$idx, "1. Bank BCA No. Rek. 5260 3588 22 Atas Nama PT PopBox Asia Service");
             
             $idx++;

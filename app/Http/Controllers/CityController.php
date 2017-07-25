@@ -110,6 +110,7 @@ class CityController extends Controller {
             foreach ($req->input("ids_kecamatan") as $key => $value) {
                 $allInsert[] = array("city_id" => $req->input("city_id"), 
                     "kecamatan_id" => $value, 
+                    "company_id" => $this->company_id, 
                     "created_at" => date("y-m-d h:i:s"));           
             }
             DB::table("city_kecamatan")->insert($allInsert);
