@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2017 at 05:40 PM
+-- Generation Time: Jul 25, 2017 at 05:49 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `crm`
+-- Database: `crm_express`
 --
 
 -- --------------------------------------------------------
@@ -5883,15 +5883,6 @@ CREATE TABLE `tb_role` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tb_role`
---
-
-INSERT INTO `tb_role` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'administrator', '', '2017-07-04 00:00:00', '2017-07-04 00:00:00'),
-(2, 'admin', '', '2017-07-04 00:00:00', '2017-07-04 00:00:00'),
-(3, 'staff', 'staff', '2017-07-04 00:00:00', '2017-07-04 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -5914,6 +5905,16 @@ CREATE TABLE `tb_users` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tb_users`
+--
+
+INSERT INTO `tb_users` (`id`, `company_id`, `role_id`, `agent_id`, `password`, `email`, `first_name`, `last_name`, `avatar`, `active`, `last_login`, `remember_token`, `created_at`, `updated_at`) VALUES
+(114, 10, 1, 0, '$2y$10$hrIU5iAjg1mUjlA4Ha6V8u5P03aUVHFIM7LqA3R6Mb32QaMOvS5iO', 'lee.nungky@gmail.com', 'crmcompany', NULL, NULL, NULL, '2017-07-25 22:07:55', '1rrOBlimhbfN1y3bjuMuLX2ub78IuCLEpitiHURaxg1xdwjuG71x3A9qtXTy', '2017-07-21 08:04:40', '2017-07-25 15:08:35'),
+(115, 10, 1, 0, '$2y$10$TUAq1LSudMIzPVKqLapyIeGe.5shH.2pGzWppOTIn5u3gYVKDW0qy', 'lee.nungky1@gmail.com', 'asep', 'hendro', NULL, NULL, '2017-07-22 13:38:37', 'OAFLjhof93afyX8h2vTSHQL0SSuuryLPEY5B0kIpdIWtU4LewmbRRRF7ypoV', '2017-07-21 20:05:33', '2017-07-23 13:15:44'),
+(116, 11, 1, 0, '$2y$10$sSw/WuKe.ZPK709CGHOzM.Uxn8Jj73zRJ/b3oOhb9z8H4pofux55q', 'nunung_lee@yahoo.com', 'expresscompany', NULL, NULL, NULL, '2017-07-21 16:16:30', 'n442IIf62Oq1xdCIP06ojD2DRpTq3Ro4fteFs8Iktx5Hrr8BNrywPr9OeylI', '2017-07-21 11:16:23', '2017-07-21 23:16:30'),
+(117, 12, 1, 0, '$2y$10$HW.8WXVxckJssY0S1TA20uBVtmnWW9peQk.t9mcP9ZBPsxo7/47f6', 'lee.nungky1@gmail.com', 'nungky', NULL, NULL, NULL, '0000-00-00 00:00:00', '', '2017-07-22 08:38:11', NULL);
 
 -- --------------------------------------------------------
 
